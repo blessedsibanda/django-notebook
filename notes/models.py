@@ -3,7 +3,7 @@ from django.urls import reverse
 
 
 class Note(models.Model):
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=120, unique=True)
     content = models.TextField()
 
     def __str__(self):
