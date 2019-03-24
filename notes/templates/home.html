@@ -8,5 +8,9 @@
 </head>
 <body>
     <h1>Django Notebook</h1>
+    <h2>Your Notes</h2>
+    {% for note in notes %}
+        <h3><a href="#">{{ note.title }}</a></h3>
+    {% endfor %}
 </body>
 </html>
