@@ -18,6 +18,9 @@
                         <li class="nav-item ml-md-5">
                             <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
                         </li>
+                        <li class="nav-item ml-md-5">
+                            <div class="mt-md-2 font-weight-bolder bg-dark text-white">{{ request.user.username|title }}</div>
+                        </li>
                     {% else %}
                         <li class="nav-item ml-md-5">
                             <a class="nav-link" href="{% url 'users:register' %}">Register</a>
