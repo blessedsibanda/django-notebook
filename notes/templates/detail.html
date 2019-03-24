@@ -7,10 +7,10 @@
     <title>Django Notebook</title>
 </head>
 <body>
-    <h1>Django Notebook</h1>
-    <h2>Your Notes</h2>
-    {% for note in notes %}
-        <h3><a href="/{{ note.id }}">{{ note.title }}</a></h3>
-    {% endfor %}
+    <h1>{{ note.title }}</h1>
+    <p>
+        {{ note.content }}
+    </p>
+    <a href="/">Back to Home Page</a>
 </body>
 </html>
