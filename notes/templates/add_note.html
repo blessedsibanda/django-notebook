@@ -6,10 +6,7 @@
         <div class="col-md-7">
             <form class="form-group" action="" method="post">
                 {% csrf_token %}
-                <label for="note_title">Title</label>
-                <input class="form-control mb-2" type="text" required name="title" id="note_title">
-                <label for="note_content">Content</label>
-                <textarea class="form-control" required name="content" id="note_content" rows="6"></textarea>
+                {{ form.as_p }}
                 <button type="submit" class="btn btn-info mt-2">Submit</button>
             </form>
         </div>

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from .models import Note
+from .forms import NoteForm
 
 # Create your views here.
 def home(request):
@@ -13,10 +14,11 @@ def note_detail(request, id):
     return render(request, 'detail.html', {'note': note})
 
 def add_note(request):
+    form = NoteForm()
     if request.method == 'POST':
-        title = request.POST.get('title', None)
-        content = request.POST.get('content', None)
-        new_note = Note(title=title, content=content)
-        new_note.save()
-        return redirect(reverse('note_detail', kwargs={'id': new_note.id}))
-    return render(request, 'add_note.html')
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            new_note = form.save()
+            return redirect(reverse('note_detail', kwargs={'id':new_note.id}))
+        return render(request, 'add_note.html', {'form':form})
+    return render(request, 'add_note.html', {'form':form})
