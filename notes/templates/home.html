@@ -3,6 +3,6 @@
 {% block content %}
     <h2>Your Notes</h2>
     {% for note in notes %}
-        <h3><a href="/{{ note.id }}">{{ note.title }}</a></h3>
+        <h4><a href="/{{ note.id }}">{{ note.title }}</a></h4>
     {% endfor %}
 {% endblock %}
