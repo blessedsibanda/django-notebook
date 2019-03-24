@@ -22,3 +22,21 @@ def add_note(request):
             return redirect(reverse('note_detail', kwargs={'id':new_note.id}))
         return render(request, 'add_note.html', {'form':form})
     return render(request, 'add_note.html', {'form':form})
+
+def edit_note(request, id):
+    note = get_object_or_404(Note, id=id)
+    form = NoteForm(instance=note)
+    if request.method == 'POST':
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            updated_note = form.save()
+            return redirect(reverse('note_detail', kwargs={'id':updated_note.id}))
+        return render(request, 'edit_note.html', {'form':form})
+    return render(request, 'edit_note.html', {'form':form})
+
+def delete_note(request, id):
+    note = get_object_or_404(Note, id=id)
+    if request.method == 'POST':
+        note.delete()
+        return redirect(reverse('home'))
+    return render(request, 'delete_note.html', {'note':note})

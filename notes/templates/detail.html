@@ -5,5 +5,7 @@
     <p>
         {{ note.content }}
     </p>
-    <a href="/">Back to Home Page</a>
+    <a class="btn btn-outline-info" href="{% url 'edit_note' note.id %}">Edit Note</a>
+    <a class="btn btn-outline-danger" href="{% url 'delete_note' note.id %}">Delete Note</a>
+    <a href="{% url 'home' %}">Back to Home Page</a>
 {% endblock %}
