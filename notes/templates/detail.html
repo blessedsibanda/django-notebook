@@ -9,7 +9,9 @@
     <p class="text-muted small">Created on <span class="font-weight-bolder">{{ note.created }}</span> <br> 
         Last edited on <span class="font-weight-bolder">{{ note.updated }}</span></p>
 
+    <a class="btn btn-outline-success" href="{% url 'share_note' note.id %}">Share Note</a>
     <a class="btn btn-outline-info" href="{% url 'edit_note' note.id %}">Edit Note</a>
     <a class="btn btn-outline-danger" href="{% url 'delete_note' note.id %}">Delete Note</a>
+    <hr>
     <a href="{% url 'home' %}">Back to Home Page</a>
 {% endblock %}

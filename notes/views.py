@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import Http404
+from django.contrib import messages
 
 from .models import Note
 from .forms import NoteForm
@@ -56,3 +58,19 @@ def delete_note(request, id):
         note.delete()
         return redirect(reverse('home'))
     return render(request, 'delete_note.html', {'note':note})
+
+
+@login_required
+def share_note(request, id):
+    note = get_object_or_404(Note, id=id)
+    all_users = User.objects.all()
+    if request.method == 'POST':
+        send_to = []
+        counter = 0
+        for user in all_users:
+            if request.POST.get(user.username, None) and user not in note.users.all():
+                note.users.add(user)
+                counter += 1
+        messages.success(request, f'Shared note with {counter} users')
+        return redirect(reverse('note_detail', kwargs={'id': note.id}))
+    return render(request, 'share.html',{'note':note, 'users': all_users })

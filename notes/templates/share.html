@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Share <span class="text-primary">"{{ note.title }}"</span> with</h2>
+    <!-- List all users here -->
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for user in users %}
+            <label for="label{{ user.id }}">{{ user.username }}</label>
+            <input type="checkbox" name="{{ user.username }}" id="label{{ user.id }}"> <br>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Share</button>
+    </form>
+    <!-- Allow multiple selections -->
+    <!-- include a search box -->
+    <!-- All 'share with all' option-->
+{% endblock %}
