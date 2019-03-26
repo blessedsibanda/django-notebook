@@ -12,15 +12,16 @@ from .forms import NoteForm
 @login_required
 def home(request):
     notes = Note.objects.filter(owner=request.user)
-    return render(request, 'home.html', {'notes': notes})
+    shared = request.user.shared_notes.all()
+    return render(request, 'home.html', {'notes': notes, 'shared_notes': shared})
 
 @login_required
 def note_detail(request, id):
     note = get_object_or_404(Note,id=id)
-    if note.owner == request.user:
+    if (note.owner == request.user) or (request.user in note.users.all()):
         return render(request, 'detail.html', {'note': note})
     else:
-        raise Http404('You can only view your own notes')
+        raise Http404('You don\'t have access to these notes')
 
 @login_required
 def add_note(request):
@@ -64,13 +65,21 @@ def delete_note(request, id):
 def share_note(request, id):
     note = get_object_or_404(Note, id=id)
     all_users = User.objects.all()
+    users_displayed = []
+    for user in all_users:
+        if user not in note.users.all():
+            users_displayed.append(user)
+
     if request.method == 'POST':
         send_to = []
         counter = 0
-        for user in all_users:
-            if request.POST.get(user.username, None) and user not in note.users.all():
+        for user in users_displayed:
+            if request.POST.get(user.username, None):
                 note.users.add(user)
                 counter += 1
-        messages.success(request, f'Shared note with {counter} users')
+        if counter == 1:
+            messages.success(request, f'Shared note with {note.users.all()[0].username}')
+        else:
+            messages.success(request, f'Shared note with {counter} users')
         return redirect(reverse('note_detail', kwargs={'id': note.id}))
-    return render(request, 'share.html',{'note':note, 'users': all_users })
+    return render(request, 'share.html',{'note':note, 'users': users_displayed })

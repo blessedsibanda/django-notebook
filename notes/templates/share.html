@@ -8,8 +8,15 @@
         {% for user in users %}
             <label for="label{{ user.id }}">{{ user.username }}</label>
             <input type="checkbox" name="{{ user.username }}" id="label{{ user.id }}"> <br>
+        {% empty %}
+            <p>This note has been shared to everyone.</p>
         {% endfor %}
-        <button type="submit" class="btn btn-primary">Share</button>
+        {% if users %}
+            <button type="submit" class="btn btn-primary">Share</button>
+        {% else %}
+            <hr>
+            <a href="{% url 'home' %}">Back to Home Page</a>
+        {% endif %}
     </form>
     <!-- Allow multiple selections -->
     <!-- include a search box -->
