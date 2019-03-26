@@ -4,5 +4,8 @@
     <h2>Your Notes</h2>
     {% for note in notes %}
         <h4><a href="{{ note.get_absolute_url }}">{{ note.title }}</a></h4>
+    {% empty %}
+        <h4>You don't have any notes yet.</h4>
+        <a href="{% url 'add_note' %}">Click here to create a new note</a>
     {% endfor %}
 {% endblock %}
