@@ -1,0 +1,8 @@
+<div class="col-md-4">
+    <h2>Shared with you</h2>
+    {% for note in shared_notes %}
+        <h4><a href="{{ note.get_absolute_url }}">{{ note.title }}</a></h4>
+    {% empty %}
+        <h4>No one has shared any notes with you yet :(</h4>
+    {% endfor %}
+</div>

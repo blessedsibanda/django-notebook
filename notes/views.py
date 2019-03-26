@@ -17,9 +17,10 @@ def home(request):
 
 @login_required
 def note_detail(request, id):
-    note = get_object_or_404(Note,id=id)
+    note = get_object_or_404(Note, id=id)
+    shared = request.user.shared_notes.all()
     if (note.owner == request.user) or (request.user in note.users.all()):
-        return render(request, 'detail.html', {'note': note})
+        return render(request, 'detail.html', {'note': note, 'shared_notes': shared})
     else:
         raise Http404('You don\'t have access to these notes')
 
